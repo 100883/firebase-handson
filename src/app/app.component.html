@@ -1,0 +1,46 @@
+<div fxLayout="row" fxLayoutAlign="center start" fxLayoutGap="10px">
+  <div class="container" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+    <form autocomplete="off" [formGroup]="form" (submit)="onSubmit()">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>
+            Lista de tarefas
+          </mat-card-title>
+          <mat-card-subtitle>
+            Você pode gerenciar sua lista de tarefas aqui
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+
+          <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+            <input formControlName="id" type="hidden">
+            <mat-form-field>
+              <input formControlName="title" #input matInput placeholder="Título" value="">
+            </mat-form-field>
+            <mat-form-field>
+              <input formControlName="description" #input matInput placeholder="Descrição" value="">
+            </mat-form-field>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button type="reset" (click)="form.reset()" mat-raised-button>CANCELAR</button>
+          <button type="submit" mat-raised-button color="primary" [disabled]="form.invalid">{{formValues.id ? 'ATUALIZAR' : 'ADICIONAR'}}</button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+
+    <br>
+
+    <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
+      <mat-card *ngFor="let todo of todos$ | async">
+        <mat-card-header>
+          <mat-card-title>{{ todo.title }}</mat-card-title>
+          <mat-card-subtitle>{{ todo.description }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions>
+          <button type="button" mat-raised-button color="primary" (click)="form.patchValue(todo); gotoTop()">EDITAR</button>
+          <button type="button" mat-raised-button color="warn" (click)="onDelete(todo.id); form.reset()">DELETAR</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
